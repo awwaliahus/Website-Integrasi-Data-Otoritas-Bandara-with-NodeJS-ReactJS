@@ -1,0 +1,29 @@
+import React, { useState, useEffect } from 'react';
+
+const App = () => {
+  const [imageUrl, setImageUrl] = useState('');
+
+  useEffect(() => {
+    fetch('http://localhost:3001/compress-resize-image?id=1') // Sesuaikan dengan URL endpoint yang benar
+      .then(response => {
+        // Mengubah respons blob menjadi URL gambar
+        return response.blob();
+      })
+      .then(blob => {
+        const imageUrl = URL.createObjectURL(blob);
+        setImageUrl(imageUrl);
+      })
+      .catch(error => {
+        console.error('Error fetching image:', error);
+      });
+  }, []);
+
+  return (
+    <div>
+      <h1>Gambar</h1>
+      {imageUrl && <img src={imageUrl} alt="gambar" />}
+    </div>
+  );
+};
+
+export default App;
